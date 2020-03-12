@@ -17,11 +17,15 @@ export class Submit extends Component {
           [event.target.name] : event.target.value
         });
       }
+      setUser = (params) =>{
+        this.props.onDisplayUser(params);
+        console.log(params);
+        
+      }
       handleSubmit=(event)=> {
-        this.setState({
-          isAccess : true
-        })
-        console.log('Username: ' + this.state.uname + ' pass: ' + this.state.psw);
+        
+        var {uname,psw} = this.state;
+        console.log('Username: ' + uname + ' pass: ' + psw);
         event.preventDefault();
         const url ='http://test.itechcorp.com.vn:38765/auth/oauth/token';
         // const data = { username:this.state.uname, password:this.state.psw, grant_type:'password' }
@@ -36,28 +40,29 @@ export class Submit extends Component {
         fetch(url, { method: 'POST',
         body: formdata, 
         headers:headers})
-        .then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then( (respone)=>
-        {
-          localStorage.setItem('myData', JSON.stringify(respone));
-          localStorage.setItem('username', username);
-          localStorage.setItem('password', password);
-          // this.props.history.push('/profile');
-        }
-          )
-        // window.location.pathname = '/profile';
-      }
-      componentDidUpdate(){
-        if (this.state.isAccess){
-          let dataJson = JSON.parse(localStorage.getItem('myData'));
-          if(dataJson){
-            console.log('token exits');
-          }else {
-            console.log('no');
+        .then(res => {
+          if (res.status === 200) {
+            return this.setUser(this.state.uname);
           }
-        }
+        })
+        .catch(error => console.error('Error:', error))
       }
+        // .then( (respone)=>
+        // {
+        //   localStorage.setItem('myData', JSON.stringify(respone));
+        //   localStorage.setItem('username', username);
+        //   localStorage.setItem('password', password);
+        //   // this.props.history.push('/profile');
+        // }
+        //   )
+        // window.location.pathname = '/profile';
+      
+      // componentDidUpdate(){
+        
+      //   if (this.state.isAccess){
+      //     return this.setUser(this.state.uname);
+      //   }
+      // }
      
     render() {
         var {render} = this.state;

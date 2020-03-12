@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 export class Hello extends Component {
     render() {
         return (
-            <div>
-                Xin chào ({})
+            <div style={{float:"right"}}>
+                Xin chào ({this.props.user})
             </div>
         );
     }
