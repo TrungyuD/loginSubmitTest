@@ -9,7 +9,8 @@ export class Submit extends Component {
           psw : '',
           contact : [],
           render : 'block',
-          isAccess : false
+          isAccess : false,
+          
         }
       }
       handleChange = (event) => {
@@ -17,9 +18,9 @@ export class Submit extends Component {
           [event.target.name] : event.target.value
         });
       }
-      setUser = (params) =>{
-        this.props.onDisplayUser(params);
-        console.log(params);
+      setUser = (params,acToken,tokenType) =>{
+        this.props.onDisplayUser(params,acToken,tokenType);
+        // console.log(params);
       }
       handleSubmit=(event)=> {
         
@@ -40,11 +41,17 @@ export class Submit extends Component {
         body: formdata, 
         headers:headers})
         .then(res => {
+          
           if (res.status === 200) {
+            // var access_token = '';
             this.setState({
               render : 'none'
             })
-            return this.setUser(this.state.uname);
+            return res.json().then((data) => {  
+              // console.log(data.access_token);
+              return this.setUser(this.state.uname,data.access_token,data.token_type);
+            }); 
+            // return this.setUser(this.state.uname);
           }
         })
         .catch(error => console.error('Error:', error))
@@ -71,7 +78,7 @@ export class Submit extends Component {
 
         return (
             <div className="">
-                <div style={{display:render}}>
+                <div style={{display:render,border:"1px solid red"}}>
                     <form action="" method='post' onSubmit={this.handleSubmit}>
                         <div className="container-fake container">
                         <div className="username">

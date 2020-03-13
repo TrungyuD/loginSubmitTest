@@ -12,23 +12,33 @@ class App extends Component {
     super(props);
     this.state = {
       userInfo : "Bạn chưa đăng nhập",
-      displayUser: false
+      displayUser: false,
+      access_token:'',
+      token_type:''
     }
   }
-  onSetUser = (params)=>{
+  onSetUser = (params,acToken,tokenType)=>{
     this.setState({
         userInfo : params,
-        displayUser :true
+        displayUser :true,
+        access_token:acToken,
+        token_type : tokenType
     });
+    console.log(acToken);
+    
   }
-  showUserList = () =>{
+  showUser = () =>{
     if (this.state.displayUser){
-      return <UserList />
-    }
-  }
-  showUserInfo = () =>{
-    if (this.state.displayUser){
-      return <UserInfo />
+      return <Container>
+      <Row>
+        <Col>
+          <UserList 
+            getAccessToken={this.state.access_token}
+            getTokenType={this.state.token_type} />
+          </Col>
+        <Col><UserInfo /></Col>
+      </Row>
+    </Container>
     }
   }
   render() {
@@ -40,12 +50,7 @@ class App extends Component {
           <Submit onDisplayUser={this.onSetUser}/>
         </div>
         <div>
-          <Container>
-            <Row>
-              <Col>{this.showUserList()}</Col>
-              <Col>{this.showUserInfo()}</Col>
-            </Row>
-          </Container>
+          {this.showUser()}
         </div>
         
       </div>
