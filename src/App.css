@@ -72,3 +72,7 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+.table-list-user{
+  padding-right: 30px;
+  border-right: 1px solid red;
+}

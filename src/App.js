@@ -14,7 +14,8 @@ class App extends Component {
       userInfo : "Bạn chưa đăng nhập",
       displayUser: false,
       access_token:'',
-      token_type:''
+      token_type:'',
+      userDisplayInfo : {}
     }
   }
   onSetUser = (params,acToken,tokenType)=>{
@@ -24,8 +25,13 @@ class App extends Component {
         access_token:acToken,
         token_type : tokenType
     });
-    console.log(acToken);
+    // console.log(acToken);
     
+  }
+  setUserInfo = (params) => {
+    this.setState({
+      userDisplayInfo : params
+    })
   }
   showUser = () =>{
     if (this.state.displayUser){
@@ -34,9 +40,12 @@ class App extends Component {
         <Col>
           <UserList 
             getAccessToken={this.state.access_token}
-            getTokenType={this.state.token_type} />
+            getTokenType={this.state.token_type}
+            displayUserInfo={this.setUserInfo} />
           </Col>
-        <Col><UserInfo /></Col>
+        <Col>
+          <UserInfo onDisplayInfo={this.state.userDisplayInfo} />
+        </Col>
       </Row>
     </Container>
     }

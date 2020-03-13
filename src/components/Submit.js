@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Hello from './Hello.js';
+// import Hello from './Hello.js';
 export class Submit extends Component {
     constructor(props){
         super(props);
