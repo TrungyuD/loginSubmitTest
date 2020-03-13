@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import Hello from './Hello.js'
+import '../App.css';
+import Hello from './Hello.js';
 export class Submit extends Component {
     constructor(props){
         super(props);
@@ -8,7 +8,7 @@ export class Submit extends Component {
           uname : '',
           psw : '',
           contact : [],
-          render : 'none',
+          render : 'block',
           isAccess : false
         }
       }
@@ -20,7 +20,6 @@ export class Submit extends Component {
       setUser = (params) =>{
         this.props.onDisplayUser(params);
         console.log(params);
-        
       }
       handleSubmit=(event)=> {
         
@@ -42,6 +41,9 @@ export class Submit extends Component {
         headers:headers})
         .then(res => {
           if (res.status === 200) {
+            this.setState({
+              render : 'none'
+            })
             return this.setUser(this.state.uname);
           }
         })
@@ -68,10 +70,10 @@ export class Submit extends Component {
         var {render} = this.state;
 
         return (
-            <div className="App">
-                <div style={{display:!render}}>
+            <div className="">
+                <div style={{display:render}}>
                     <form action="" method='post' onSubmit={this.handleSubmit}>
-                        <div className="container">
+                        <div className="container-fake container">
                         <div className="username">
                             <label htmlFor=""><b>Username:</b></label>
                             <input type="text" placeholder="Enter Username" name="uname" value={this.state.uname} onChange={this.handleChange} required/>
@@ -87,7 +89,7 @@ export class Submit extends Component {
                         </div>
                     </form>
                 </div>
-                <div style={{display:render,float:'right'}}>Xin chào {this.state.uname}</div>
+                {/* <div style={{display:render,float:'right'}}>Xin chào {this.state.uname}</div> */}
               </div>
         );
     }
