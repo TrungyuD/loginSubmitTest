@@ -8,7 +8,7 @@ class UserList extends Component {
             dataUserInfo : []
         }
     }
-    componentWillMount(){
+    UNSAFE_componentWillMount(){
         const {getTokenType, getAccessToken} = this.props;
         const url = 'http://test.itechcorp.com.vn:38765/auth/secured/ws/rest/v1/user';
         let headers = new Headers();
@@ -29,17 +29,16 @@ class UserList extends Component {
         const {dataUserInfo} =this.state;
         return dataUserInfo.map((value,key)=>
         {
-            // console.log(dataUserInfo);
-            // var person = value.person;
-            // console.log(person);
-            return <tr key={key} onClick = {()=> {
-                this.onDislayInfo(value);
-            }}>
-            <td>{value.id}</td>
-            <td>{value.username}</td>
-            <td>{value.email}</td>
-            <td>{value.phoneNumber}</td> 
-            </tr>
+            if(value.person !==null){
+                return <tr className="choose-user" key={key} onClick={()=> {
+                    this.onDislayInfo(value);
+                }}>
+                <td>{value.id}</td>
+                <td>{value.username}</td>
+                <td>{value.email}</td>
+                <td>{value.phoneNumber}</td> 
+                </tr>
+            }
         }
         );
     }
@@ -51,7 +50,7 @@ class UserList extends Component {
         return (
             <div>
                 <div className="table-list-user">
-                    <Table style={{border:"1px solid red !important"}}>
+                    <Table style={{maxWidth:"500px"}}>
                         <thead>
                             <tr>
                             <th>id</th>

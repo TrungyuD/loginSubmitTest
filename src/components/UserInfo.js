@@ -24,8 +24,8 @@ class UserInfo extends Component {
                     <Table>
                         <thead>
                             <tr>
-                                <td>key</td>
-                                <td>value</td>
+                                <th>key</th>
+                                <th>value</th>
                             </tr>
                         </thead>
                         <tbody>

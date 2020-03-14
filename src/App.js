@@ -5,6 +5,7 @@ import Hello from './components/Hello.js';
 import UserInfo from './components/UserInfo.js';
 import UserList from './components/UserList.js';
 import {Row, Col, Container} from 'react-bootstrap';
+import Logout from './components/Logout.js';
 // import { encode } from "base-64";
 class App extends Component {
 
@@ -15,15 +16,17 @@ class App extends Component {
       displayUser: false,
       access_token:'',
       token_type:'',
-      userDisplayInfo : {}
+      userDisplayInfo : {},
+      renderSubmit : 'block'
     }
   }
-  onSetUser = (params,acToken,tokenType)=>{
+  onSetUser = (params,acToken,tokenType,isRender)=>{
     this.setState({
         userInfo : params,
         displayUser :true,
         access_token:acToken,
-        token_type : tokenType
+        token_type : tokenType,
+        renderSubmit : isRender
     });
     // console.log(acToken);
     
@@ -33,21 +36,35 @@ class App extends Component {
       userDisplayInfo : params
     })
   }
+  onSetLogout = (params) => {
+        this.setState({
+          renderSubmit : params,
+          displayUser : false,
+          userInfo : "Bạn chưa đăng nhập",
+        })
+        console.log('did');
+  }
   showUser = () =>{
     if (this.state.displayUser){
-      return <Container>
+      return <div>
       <Row>
-        <Col>
+        <Col lg={5}>
           <UserList 
             getAccessToken={this.state.access_token}
             getTokenType={this.state.token_type}
-            displayUserInfo={this.setUserInfo} />
+            displayUserInfo={this.setUserInfo}
+             />
           </Col>
-        <Col>
+        <Col lg={7}>
           <UserInfo onDisplayInfo={this.state.userDisplayInfo} />
         </Col>
       </Row>
-    </Container>
+      </div>
+    }
+  }
+  showLogout = () => {
+    if(this.state.displayUser) {
+      return <Logout onLogout={this.onSetLogout}/>
     }
   }
   render() {
@@ -56,7 +73,12 @@ class App extends Component {
       <div>
         <Hello user={this.state.userInfo}/>
         <div>
-          <Submit onDisplayUser={this.onSetUser}/>
+          {this.showLogout()}
+        </div>
+        <div>
+          <Submit onDisplayUser={this.onSetUser}
+                  onDisplaySubmit={this.state.renderSubmit}
+          />
         </div>
         <div>
           {this.showUser()}

@@ -18,8 +18,8 @@ export class Submit extends Component {
           [event.target.name] : event.target.value
         });
       }
-      setUser = (params,acToken,tokenType) =>{
-        this.props.onDisplayUser(params,acToken,tokenType);
+      setUser = (params,acToken,tokenType,isRender) =>{
+        this.props.onDisplayUser(params,acToken,tokenType,isRender);
         // console.log(params);
       }
       handleSubmit=(event)=> {
@@ -44,41 +44,24 @@ export class Submit extends Component {
           
           if (res.status === 200) {
             // var access_token = '';
-            this.setState({
-              render : 'none'
-            })
+            // this.setState({
+            //   render : 'none'
+            // })
             return res.json().then((data) => {  
               // console.log(data.access_token);
-              return this.setUser(this.state.uname,data.access_token,data.token_type);
+              return this.setUser(this.state.uname,data.access_token,data.token_type,'none');
             }); 
             // return this.setUser(this.state.uname);
           }
         })
         .catch(error => console.error('Error:', error))
       }
-        // .then( (respone)=>
-        // {
-        //   localStorage.setItem('myData', JSON.stringify(respone));
-        //   localStorage.setItem('username', username);
-        //   localStorage.setItem('password', password);
-        //   // this.props.history.push('/profile');
-        // }
-        //   )
-        // window.location.pathname = '/profile';
-      
-      // componentDidUpdate(){
         
-      //   if (this.state.isAccess){
-      //     return this.setUser(this.state.uname);
-      //   }
-      // }
-     
     render() {
         var {render} = this.state;
-
         return (
             <div className="">
-                <div style={{display:render,border:"1px solid red"}}>
+                <div style={{display:this.props.onDisplaySubmit,border:"1px solid red"}}>
                     <form action="" method='post' onSubmit={this.handleSubmit}>
                         <div className="container-fake container">
                         <div className="username">

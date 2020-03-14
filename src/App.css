@@ -76,3 +76,6 @@ tr:nth-child(even) {
   padding-right: 30px;
   border-right: 1px solid red;
 }
+.choose-user{
+  cursor: pointer;
+}
